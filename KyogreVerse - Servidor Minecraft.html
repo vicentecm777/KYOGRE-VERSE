@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KyogreVerse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --abismo:#041220;
+    --profundo:#0B1F33;
+    --oceano:#0E4C6B;
+    --marea:#0E7490;
+    --aqua:#38BDF8;
+    --espuma:#EAF6FF;
+    --kyogre:#5B7FFF;
+    --grid: rgba(56,189,248,0.08);
+    box-sizing:border-box;
+    padding-top: env(safe-area-inset-top,0px);
+    padding-bottom: env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth; scroll-padding-top: env(safe-area-inset-top,0px);}
+  body{
+    margin:0;
+    background:var(--abismo);
+    color:var(--espuma);
+    font-family:'Rubik',system-ui,sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,.pixel{font-family:'Silkscreen',monospace;}
+
+  /* fondo con textura de olas suaves */
+  .bg-olas{
+    position:fixed; inset:0; z-index:-1;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(91,127,255,0.18), transparent 55%),
+      radial-gradient(ellipse at 80% 20%, rgba(56,189,248,0.15), transparent 50%),
+      linear-gradient(180deg, var(--abismo) 0%, var(--profundo) 45%, var(--oceano) 100%);
+  }
+  .bg-olas::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:38px 38px;
+    mask-image: linear-gradient(180deg, transparent, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.9) 100%);
+  }
+
+  header{
+    min-height:88vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:40px 20px; position:relative;
+  }
+  .logo-tag{
+    font-size:13px; letter-spacing:2px; color:var(--aqua);
+    border:1px solid rgba(56,189,248,0.4); border-radius:6px;
+    padding:6px 14px; margin-bottom:26px; background:rgba(56,189,248,0.06);
+  }
+  h1.titulo{
+    font-size:clamp(40px, 9vw, 84px);
+    line-height:1.05;
+    margin:0 0 18px;
+    color:var(--espuma);
+    text-shadow: 0 0 24px rgba(56,189,248,0.45), 0 0 4px rgba(91,127,255,0.6);
+  }
+  h1.titulo span{ color:var(--aqua); }
+  .subtitulo{
+    max-width:560px; font-size:18px; color:#B9DCEF; margin:0 0 34px; line-height:1.6;
+  }
+  .cta-row{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+  .btn{
+    font-family:'Silkscreen'; font-size:13px; text-decoration:none;
+    padding:14px 22px; border-radius:4px; border:2px solid var(--aqua);
+    color:var(--abismo); background:var(--aqua);
+    box-shadow: 0 4px 0 #1c6f92, 0 6px 18px rgba(56,189,248,0.35);
+    transition: transform .12s ease;
+    display:inline-block;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn.ghost{
+    background:transparent; color:var(--espuma); border-color:rgba(234,246,255,0.35);
+    box-shadow:none;
+  }
+  .btn.ghost:hover{ border-color:var(--aqua); color:var(--aqua); }
+
+  .ip-box{
+    margin-top:38px; font-family:'Silkscreen'; font-size:15px;
+    background:rgba(11,31,51,0.7); border:1px dashed rgba(56,189,248,0.5);
+    padding:12px 20px; border-radius:6px; color:var(--aqua);
+    letter-spacing:1px;
+  }
+
+  section{ max-width:1080px; margin:0 auto; padding:70px 24px; position:relative; }
+  .eyebrow{ display:none; }
+  h2.titulo-seccion{
+    font-size:clamp(26px,4.5vw,38px); margin:0 0 8px; color:var(--espuma);
+  }
+  .desc-seccion{ color:#9BC7DE; max-width:560px; margin:0 0 40px; line-height:1.6; }
+
+  /* redes sociales */
+  .redes-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+  .red-card{
+    display:flex; align-items:center; gap:16px;
+    background:linear-gradient(160deg, rgba(14,76,107,0.55), rgba(4,18,32,0.6));
+    border:1px solid rgba(56,189,248,0.25);
+    border-radius:10px; padding:22px; text-decoration:none; color:var(--espuma);
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .red-card:hover{ border-color:var(--aqua); transform:translateY(-3px); }
+  .red-icono{
+    width:46px; height:46px; border-radius:50%; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(56,189,248,0.15); font-size:22px;
+  }
+  .red-nombre{ font-weight:700; font-size:16px; display:block; }
+  .red-detalle{ font-size:13px; color:#9BC7DE; }
+
+  /* tienda */
+  .tienda-grupo{ margin-bottom:52px; }
+  .tienda-grupo h3{
+    font-family:'Silkscreen'; font-size:17px; color:var(--kyogre);
+    margin:0 0 18px; padding-bottom:10px; border-bottom:1px solid rgba(91,127,255,0.25);
+  }
+  .items-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+  .item-card{
+    background:rgba(11,31,51,0.55); border:1px solid rgba(255,255,255,0.08);
+    border-radius:10px; padding:20px; display:flex; flex-direction:column; gap:8px;
+  }
+  .item-card .nombre{ font-weight:700; font-size:16px; }
+  .item-card .info{ font-size:13.5px; color:#9BC7DE; line-height:1.5; flex:1; }
+  .item-card .precio{
+    font-family:'Silkscreen'; color:var(--aqua); font-size:15px; margin-top:6px;
+  }
+
+  footer{
+    text-align:center; padding:50px 24px 60px; color:#6E9BB4; font-size:13px;
+  }
+  footer .pixel{ color:var(--aqua); font-size:12px; display:block; margin-bottom:10px; }
+
+  @media (prefers-reduced-motion:no-preference){
+    header{ animation: subirDesde .8s ease-out; }
+    @keyframes subirDesde{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;} }
+  }
+</style>
+</head>
+<body>
+<div class="bg-olas"></div>
+
+<header>
+  <span class="logo-tag pixel">SERVIDOR DE MINECRAFT · MOD COBBLEVERSE</span>
+  <h1 class="titulo">KYOGRE<span>VERSE</span></h1>
+  <p class="subtitulo">Un mundo Pokémon dentro de Minecraft. Captura, entrena y construye tu imperio en las profundidades de KyogreVerse.</p>
+  <div class="cta-row">
+    <a class="btn" href="#tienda">Ver tienda</a>
+    <a class="btn ghost" href="#redes">Únete a la comunidad</a>
+  </div>
+  <div class="ip-box">play.kyogreverse.net</div>
+</header>
+
+<section id="redes">
+  <h2 class="titulo-seccion">Nuestra comunidad</h2>
+  <p class="desc-seccion">Entérate de eventos, actualizaciones del mod y sorteos antes que nadie.</p>
+  <div class="redes-grid">
+    <a class="red-card" href="https://discord.gg/mxZ6hKpsH2" target="_blank" rel="noopener">
+      <span class="red-icono">💬</span>
+      <span>
+        <span class="red-nombre">Discord</span>
+        <span class="red-detalle">Soporte, trades y anuncios en vivo</span>
+      </span>
+    </a>
+    <a class="red-card" href="https://tiktok.com" target="_blank" rel="noopener">
+      <span class="red-icono">🎬</span>
+      <span>
+        <span class="red-nombre">TikTok</span>
+        <span class="red-detalle">Clips, builds y capturas destacadas</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<section id="tienda">
+  <h2 class="titulo-seccion">Tienda del servidor</h2>
+  <p class="desc-seccion">Todo lo que compras acá ayuda a mantener el servidor encendido. Gracias por apoyar a KyogreVerse.</p>
+
+  <div class="tienda-grupo">
+    <h3>Packs</h3>
+    <div class="items-grid">
+      <div class="item-card">
+        <span class="nombre">Pack Entrenador</span>
+        <span class="info">Kit de inicio con pokébolas, ítems de curación y una montura básica.</span>
+        <span class="precio">$3.000 CLP</span>
+      </div>
+      <div class="item-card">
+        <span class="nombre">Pack Legendario</span>
+        <span class="info">Incluye señuelos raros, incienso y acceso a una zona de captura exclusiva.</span>
+        <span class="precio">$8.000 CLP</span>
+      </div>
+      <div class="item-card">
+        <span class="nombre">Pack Constructor</span>
+        <span class="info">Bloques decorativos, herramientas encantadas y doble de recursos por 24h.</span>
+        <span class="precio">$5.000 CLP</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tienda-grupo">
+    <h3>Rangos VIP</h3>
+    <div class="items-grid">
+      <div class="item-card">
+        <span class="nombre">VIP Marino</span>
+        <span class="info">Tag exclusivo, /kit diario y +2 mascotas activas.</span>
+        <span class="precio">$4.500 CLP / mes</span>
+      </div>
+      <div class="item-card">
+        <span class="nombre">VIP Abisal</span>
+        <span class="info">Todo lo del rango Marino, más acceso anticipado a eventos y /fly limitado.</span>
+        <span class="precio">$9.000 CLP / mes</span>
+      </div>
+      <div class="item-card">
+        <span class="nombre">VIP Kyogre</span>
+        <span class="info">El rango máximo: cofre semanal, prioridad de conexión y color de nombre único.</span>
+        <span class="precio">$15.000 CLP / mes</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tienda-grupo">
+    <h3>Protecciones</h3>
+    <div class="items-grid">
+      <div class="item-card">
+        <span class="nombre">Claim +500 bloques</span>
+        <span class="info">Amplía el área protegida de tu base contra robos y destrucción.</span>
+        <span class="precio">$3.500 CLP</span>
+      </div>
+      <div class="item-card">
+        <span class="nombre">Protección de PC</span>
+        <span class="info">Bloquea el acceso a tu Ordenador Pokémon para que nadie más lo use.</span>
+        <span class="precio">$2.000 CLP</span>
+      </div>
+      <div class="item-card">
+        <span class="nombre">Seguro anti-robo de equipo</span>
+        <span class="info">Si te desconectas en combate, tu Pokémon queda protegido por 10 minutos.</span>
+        <span class="precio">$2.500 CLP</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tienda-grupo">
+    <h3>Ayudas de juego</h3>
+    <div class="items-grid">
+      <div class="item-card">
+        <span class="nombre">Rastreador de shiny</span>
+        <span class="info">Aumenta tu probabilidad de encontrar Pokémon shiny durante 3 horas.</span>
+        <span class="precio">$3.000 CLP</span>
+      </div>
+      <div class="item-card">
+        <span class="nombre">Teletransporte personal</span>
+        <span class="info">Desbloquea 3 puntos de teletransporte propios en el mundo.</span>
+        <span class="precio">$2.500 CLP</span>
+      </div>
+      <div class="item-card">
+        <span class="nombre">Doble EXP de combate</span>
+        <span class="info">Tus Pokémon suben de nivel al doble de velocidad por 48 horas.</span>
+        <span class="precio">$3.500 CLP</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="pixel">KYOGREVERSE</span>
+  Servidor comunitario de Minecraft con el mod Cobbleverse. No afiliado a Mojang, Microsoft ni The Pokémon Company.
+</footer>
+
+</body>
+</html>
